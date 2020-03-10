@@ -2,16 +2,57 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-# class Person(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     username = db.Column(db.String(80), unique=True, nullable=False)
-#     email = db.Column(db.String(120), unique=True, nullable=False)
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(80))
+    password = db.Column(db.String(120))
 
-#     def __repr__(self):
-#         return '<Person %r>' % self.username
+    def __repr__(self):
+        return '<Users %r>' % self.email
 
-#     def serialize(self):
-#         return {
-#             "username": self.username,
-#             "email": self.email
-#         }
+    def serialize(self):
+        return{
+            "email": self.email,
+            "password": self.password
+        }
+
+
+class Quizes(db.Model):
+    __tablename__ = 'quizes'
+    id = db.Column(db.Integer, primary_key=True)
+    Quiz = db.Column(db.Integer, primary_key=True)
+
+    def __repr__(self):
+        return '<Quiz %r>' % self.quiz
+
+    def serialize(self):
+        return {
+            "quiz" : self.quiz
+        }
+
+
+class Questions(db.Model):
+    __tablename__ = 'questions'
+    id = db.Column(db.Integer, primary_key=True)
+    quiz_id = db.Column(db.Integer, db.ForeignKey('quizes.id'))
+    questions = db.Column(db.String(160))
+    a = db.Column(db.String(120))
+    b = db.Column(db.String(120))
+    c = db.Column(db.String(120))
+    d = db.Column(db.String(120))
+
+    def __repr__(self):
+        return '<Question %r>' % self.question
+
+    def serialize(self):
+        return {
+            "id" : self.id,
+            "question" : self.question, 
+            options:{
+                "a" : self.a,
+                "b" : self.b,
+                "c" : self.c,
+                "d" : self.d
+            }
+        }
+
