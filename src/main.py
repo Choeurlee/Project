@@ -54,7 +54,26 @@ def register():
 @app.route('/upload/quiz', methods=['POST'])
 def upload_quiz():
 
-    pass
+    json = request.get_json()
+
+    quiz = Quizes(
+        name = json['name']
+    )
+    db.session.add( quiz )
+    db.session.flush()
+
+    for x in json['questions']:
+        db.session.add( Questions(
+            quiz_id = quiz.id,
+            question = x['question'],
+            a = x['options']['a'],
+            b = x['options']['b'],
+            c = x['options']['c'],
+            d = x['options']['d']
+        ))
+
+    db.session.commit()
+        
 
 
 

@@ -20,7 +20,7 @@ class Users(db.Model):
 class Quizes(db.Model):
     __tablename__ = 'quizes'
     id = db.Column(db.Integer, primary_key=True)
-    Quiz = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
 
     def __repr__(self):
         return '<Quiz %r>' % self.quiz
@@ -35,7 +35,7 @@ class Questions(db.Model):
     __tablename__ = 'questions'
     id = db.Column(db.Integer, primary_key=True)
     quiz_id = db.Column(db.Integer, db.ForeignKey('quizes.id'))
-    questions = db.Column(db.String(160))
+    question = db.Column(db.String(160))
     a = db.Column(db.String(120))
     b = db.Column(db.String(120))
     c = db.Column(db.String(120))
@@ -48,7 +48,7 @@ class Questions(db.Model):
         return {
             "id" : self.id,
             "question" : self.question, 
-            options:{
+            "options":{
                 "a" : self.a,
                 "b" : self.b,
                 "c" : self.c,
